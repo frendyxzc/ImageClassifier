@@ -17,3 +17,12 @@ def resnet34():
 
     return model, labels
 
+
+def vgg16():
+    model = models.vgg16(pretrained=True)
+    if USE_CUDA:
+        model.cuda()
+
+    labels = labelList()
+
+    return model, labels
