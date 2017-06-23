@@ -15,8 +15,8 @@ from config import USE_CUDA
 img_to_tensor = transforms.ToTensor()
 
 # 分类
-def inference(resmodel, imgpath):
-    resmodel.eval()
+def inference(model, imgpath):
+    model.eval()
 
     img = Image.open(imgpath)
     img = img.resize((224, 224))
@@ -26,7 +26,7 @@ def inference(resmodel, imgpath):
     if USE_CUDA:
         tensor = tensor.cuda()
 
-    result = resmodel(Variable(tensor))
+    result = model(Variable(tensor))
     result_npy = result.data.cpu().numpy()
     max_index = np.argmax(result_npy[0])
 
@@ -34,9 +34,9 @@ def inference(resmodel, imgpath):
 
 
 # 特征提取
-def extract_feature(resmodel, imgpath):
-    resmodel.fc = torch.nn.LeakyReLU(0.1)
-    resmodel.eval()
+def extract_feature(model, imgpath):
+    model.fc = torch.nn.LeakyReLU(0.1)
+    model.eval()
 
     img = Image.open(imgpath)
     img = img.resize((224, 224))
@@ -46,7 +46,7 @@ def extract_feature(resmodel, imgpath):
     if USE_CUDA:
         tensor = tensor.cuda()
 
-    result = resmodel(Variable(tensor))
+    result = model(Variable(tensor))
     result_npy = result.data.cpu().numpy()
 
     return result_npy[0]
