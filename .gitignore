@@ -3,3 +3,4 @@ __pycache__/
 data/*.jpg
 data/*.png
 data/cifar*
+train/models/*.pth
